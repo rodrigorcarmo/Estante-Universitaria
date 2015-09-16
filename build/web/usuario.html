@@ -146,7 +146,7 @@ Av. Amazonas 7675 - Nova Gameleira - Belo Horizonte - MG - Brasil <br />
                 <table>
                     <tr>
                         <td width="160">Preço:</td>
-                        <td>R$0,00</td>
+                        <td>R$100,00</td>
                     </tr>
                     <tr>
                         <td>Tipo de negociação:</td>
@@ -197,7 +197,7 @@ Av. Amazonas 7675 - Nova Gameleira - Belo Horizonte - MG - Brasil <br />
                 <h3>Cálculo Vol. 2</h3>
                 <a href="#" id="detalhesID"> <img src="images/product/01.jpg" alt="Books 2" width="200" height="150" /></a>
               <p>Novo.</p>
-              <p>Troca.</p>
+              <p>Venda.</p>
               <p class="product_price">R$100,00</p>
             </div>          
             <div class="product_box">
@@ -346,7 +346,6 @@ Av. Amazonas 7675 - Nova Gameleira - Belo Horizonte - MG - Brasil <br />
                     <p><input type="text" name="nome" value="" placeholder="Nome" size="55"></p>
                     <p><input type="text" name="autor" value="" placeholder="Autor" size="8">
                     <input type="text" name="editora" value="" placeholder="Editora" size="42"></p>
-					<input type="text" name="edicao" value="" placeholder="Edição" size="42"></p>
                     <p><input type="text" name="ano" value="" placeholder="Ano" size="4">
                     <input type="text" name="condição" value="" placeholder="Condição" size="20"></p>
                     <p class="submit"><input type="submit" name="commit" value="Enviar"></p>
@@ -395,26 +394,11 @@ Av. Amazonas 7675 - Nova Gameleira - Belo Horizonte - MG - Brasil <br />
                 <div id="addAnuncioID" class="hidden">
                     <h3>Adicionar Anúncio</h3>
                     <form method="post">
-					<p>
-					<select>
-						<option>Livro 1</option>
-						<option>Livro 2</option>
-						<option>Livro 3</option>
-					<select>
-					</p>
-					<p><input type="text" name="nome" value="" placeholder="Nome" size="55"></p>
+                    <p><input type="text" name="nome" value="" placeholder="Nome" size="55"></p>
                     <p><input type="text" name="autor" value="" placeholder="Autor" size="8">
                     <input type="text" name="editora" value="" placeholder="Editora" size="42"></p>
                     <p><input type="text" name="ano" value="" placeholder="Ano" size="4">
-					<input type="text" name="edicao" value="" placeholder="Edição" size="42"></p>
                     <input type="text" name="condição" value="" placeholder="Condição" size="20"></p>
-					<select>
-						<option >Tipo</option>
-						<option >Troca</option>
-						<option >Venda</option>
-						<option >Troca/Venda</option>
-					</select>
-					<input type="text" name="valor" value="" placeholder="Valor" size="20"></p>
                     <p class="submit"><input type="submit" name="commit" value="Enviar"></p>
                 </div>
 
@@ -473,6 +457,7 @@ Av. Amazonas 7675 - Nova Gameleira - Belo Horizonte - MG - Brasil <br />
 
                 <div id="favoritos" class="hidden">
 				<h3>Favoritos</h3>
+				<li class="first"><a href="#" id="addLivro">Adicionar Anúncio a Favoritos</a></li>
 				<p></p>
 				<p></p>
                     <div class="product_box">

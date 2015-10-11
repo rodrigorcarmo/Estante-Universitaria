@@ -1,6 +1,7 @@
 
 package Testes;
 
+import Controllers.UserController;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,8 +11,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({})
-public class UserTests {
-
+public class UserTests {    
+    
     @BeforeClass
     public static void setUpClass() throws Exception {
     }

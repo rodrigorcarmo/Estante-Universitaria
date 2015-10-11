@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DbInstance {
     private final static String DBURL = "jdbc:mysql://localhost:3306/estanteUniversitaria"; 
     public Connection getConnection() throws SQLException{
-    Connection conn = (Connection) DriverManager.getConnection(DBURL, "usuario", "senha");
+    Connection conn = (Connection) DriverManager.getConnection(DBURL, "root", "147854pmb");
     return conn;
    }
 }

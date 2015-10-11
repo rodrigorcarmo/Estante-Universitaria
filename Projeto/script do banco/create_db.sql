@@ -20,13 +20,13 @@ USE `estanteUniversitaria` ;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Usuario` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Usuario` (
-  `idUsuario` INT NOT NULL,
+  `idUsuario` INT NOT NULL  AUTO_INCREMENT,
   `email` TEXT NOT NULL,
   `password` TEXT NOT NULL,
   `cep` TEXT NULL,
   `endereco` TEXT NULL,
   `endNum` INT NULL,
-  `endComplemetno` TEXT NULL,
+  `endComplemento` TEXT NULL,
   `estado` TEXT NULL,
   `cidade` TEXT NULL,
   `universidade` TEXT NULL,
@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Livro` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Livro` (
-  `idLivro` INT NOT NULL,
+  `idLivro`  INT NOT NULL AUTO_INCREMENT ,
   `nome` TEXT NULL,
   `autor` TEXT NULL,
   `editora` TEXT NULL,
@@ -60,7 +60,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Anuncio` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Anuncio` (
-  `idAnuncio` INT NOT NULL,
+  `idAnuncio`  INT NOT NULL AUTO_INCREMENT,
   `idLivro` INT NULL,
   `tipo` TEXT NULL,
   `valor` DOUBLE NULL,
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Transacao` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Transacao` (
-  `idTransacao` INT NOT NULL,
+  `idTransacao` INT NOT NULL AUTO_INCREMENT,
   `idUsuarioAnunciante` INT NULL,
   `idUsuarioCliente` INT NULL,
   `status` INT NULL,
@@ -120,7 +120,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Avaliacao` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Avaliacao` (
-  `idAvaliacao` INT NOT NULL,
+  `idAvaliacao` INT NOT NULL AUTO_INCREMENT,
   `idUsuarioAvaliado` INT NULL,
   `idUsuarioAvaliador` INT NULL,
   `nota` INT NULL,
@@ -154,7 +154,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Wishlist` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Wishlist` (
-  `idWishlist` INT NOT NULL,
+  `idWishlist` INT NOT NULL AUTO_INCREMENT,
   `idLivro` INT NULL,
   `idUsuario` INT NULL,
   PRIMARY KEY (`idWishlist`),
@@ -179,7 +179,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Favoritos` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Favoritos` (
-  `idFavorito` INT NOT NULL,
+  `idFavorito` INT NOT NULL AUTO_INCREMENT,
   `idUsuario` INT NULL,
   `idAnuncio` INT NULL,
   PRIMARY KEY (`idFavorito`),
@@ -204,7 +204,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Comentario` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Comentario` (
-  `idComentario` INT NOT NULL,
+  `idComentario` INT NOT NULL AUTO_INCREMENT,
   `idUsuario` INT NULL,
   `idAnuncio` INT NULL,
   `texto` TEXT NULL,
@@ -231,7 +231,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Chat` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Chat` (
-  `idChat` INT NOT NULL,
+  `idChat` INT NOT NULL AUTO_INCREMENT,
   `idUsuario1` INT NULL,
   `idUsuario2` INT NULL,
   PRIMARY KEY (`idChat`),
@@ -256,7 +256,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `estanteUniversitaria`.`Mensagem` ;
 
 CREATE TABLE IF NOT EXISTS `estanteUniversitaria`.`Mensagem` (
-  `idMensagem` INT NOT NULL,
+  `idMensagem` INT NOT NULL AUTO_INCREMENT,
   `idChat` INT NULL,
   `idUsuarioEnvia` INT NULL,
   `idUsuarioRecebe` INT NULL,

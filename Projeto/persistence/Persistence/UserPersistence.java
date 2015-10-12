@@ -32,7 +32,7 @@ public class UserPersistence {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getCep());
             preparedStatement.setString(4, user.getEndereco());
-            preparedStatement.setString(5, user.getEndNum());
+            preparedStatement.setInt(5, user.getEndNum());
             preparedStatement.setString(6, user.getEndComplemento());
             preparedStatement.setString(7, user.getEstado());
             preparedStatement.setString(8, user.getCidade());
@@ -74,7 +74,7 @@ public class UserPersistence {
             String updateTableSQL = "UPDATE usuario SET ";
             int i = 0;
             for (Map.Entry<String, JsonElement> entry : user.entrySet()) {
-                if (!entry.getKey().equalsIgnoreCase("id") && !entry.getKey().equalsIgnoreCase("action")) {
+                if (!entry.getKey().equalsIgnoreCase("idUsuario") && !entry.getKey().equalsIgnoreCase("id") && !entry.getKey().equalsIgnoreCase("action")) {
                     if (i > 0) {
                         updateTableSQL += ", ";
                     }
@@ -91,5 +91,34 @@ public class UserPersistence {
         }
 
     }
-
+    
+    public static UserModel getUser(String email){
+        UserModel um = new UserModel();
+        DbInstance db = new DbInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = db.getConnection();
+            String selectUser = "SELECT * from usuario where email = '" +email+"'";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(selectUser);
+            while(rs.next()){
+                um.setCelular(rs.getString("celular"));
+                um.setCep(rs.getString("cep"));
+                um.setCidade(rs.getString("cidade"));
+                um.setEmail(rs.getString("email"));
+                um.setEndComplemento(rs.getString("endcomplemento"));
+                um.setEndNum(rs.getInt("endnum"));
+                um.setEndereco(rs.getString("endereco"));
+                um.setNome(rs.getString("nome"));
+                um.setPassword(rs.getString("password"));
+                um.setTelefone(rs.getString("telefone"));
+                um.setUniversidade(rs.getString("universidade"));
+                um.setIdUsuario(rs.getInt("idUsuario"));
+            }
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return um;
+    }
 }

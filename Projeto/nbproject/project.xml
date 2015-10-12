@@ -27,7 +27,7 @@
                 <root id="src.models.dir"/>
             </source-roots>
             <test-roots>
-                <root id="test.testes.dir"/>
+                <root id="test.Testes.dir"/>
             </test-roots>
         </data>
     </configuration>

@@ -25,8 +25,9 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="HeaderController">
                     <ul id="navBarId" class="nav navbar-nav">
                         <li ng-if="!checkIfLogged()" ng-class="{active: isActive('#home')}"><a href="#home">Home</a></li>
+                        <li ng-class="{active: isActive('#anuncios')}"><a href="#anuncios">Todos Anúncios</a></li>
                         <li ng-if="checkIfLogged()" ng-class="{active: isActive('#usuario')}"><a href="#usuario">Meu Perfil</a></li>
-                        <li ng-class="{active: isActive('#anuncios')}"><a href="#anuncios">Anúncios</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#meusanuncios')}"><a href="#meusanuncios">Meus Anúncios</a></li>
                         <li ng-if="checkIfLogged()" ng-class="{active: isActive('#livros')}"><a href="#livros">Livros</a></li>  
                         <li ng-if="checkIfLogged()" ng-class="{active: isActive('#wishlist')}"><a href="#wishlist">Wishlist</a></li>
                         <li ng-if="checkIfLogged()" ng-class="{active: isActive('#favoritos')}"><a href="#favoritos">Favoritos</a></li>

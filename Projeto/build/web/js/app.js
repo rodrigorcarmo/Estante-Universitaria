@@ -1,11 +1,11 @@
-var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies','ui.bootstrap'])
+var estanteApp = angular.module('estanteApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider
                         .when('/home', {
                             templateUrl: 'home.html'
                         })
                         .when('/anuncios', {
-                            templateUrl: 'anuncios.html'
+                            templateUrl: 'Anuncios/anuncios.html'
                         })
                         .when('/quemsomos', {
                             templateUrl: 'quemsomos.html'
@@ -20,41 +20,49 @@ var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies','ui.bootstr
                             templateUrl: 'entre.html'
                         })
                         .when('/usuario', {
-                            templateUrl: 'usuario.html'
+                            templateUrl: 'Usuario/usuario.html'
                         })
                         .when('/livros', {
-                            templateUrl: 'livros.html'
+                            templateUrl: 'Livro/livros.html'
                         })
                         .when('/favoritos', {
-                            templateUrl: 'favoritos.html'
+                            templateUrl: 'Favoritos/favoritos.html'
                         })
                         .when('/wishlist', {
-                            templateUrl: 'wishlist.html'
+                            templateUrl: 'Wishlist/wishlist.html'
                         })
-                                .when('/addwishlist', {
-                            templateUrl: 'addwishlist.html'
+                        .when('/addwishlist', {
+                            templateUrl: 'Wishlist/addwishlist.html'
                         })
                         .when('/addlivro', {
-                            templateUrl: 'addlivro.html'
+                            templateUrl: 'Livro/addlivro.html'
                         })
                         .when('/editlivro/:param1/:param2', {
-                        templateUrl: 'editlivro.html',    
-    
+                            templateUrl: 'Livro/editlivro.html',
                         })
                         .when('/editwishlist/:param1/:param2', {
-                        templateUrl: 'editwishlist.html',    
-    
+                            templateUrl: 'Wishlist/editwishlist.html',
                         })
                         .when('/viewlivro/:param1', {
-                        templateUrl: 'viewlivro.html',    
-    
+                            templateUrl: 'Livro/viewlivro.html',
                         })
                         .when('/viewwishlist/:param1', {
-                        templateUrl: 'viewwishlist.html',    
-    
+                            templateUrl: 'Wishlist/viewwishlist.html',
+                        })
+                        .when('/meusanuncios', {
+                            templateUrl: 'MeusAnuncios/meusanuncios.html',
+                        })
+                        .when('/addmyads', {
+                            templateUrl: 'MeusAnuncios/addmyads.html',
+                        })
+                        .when('/viewmyads/:param1', {
+                            templateUrl: 'MeusAnuncios/viewmyads.html',
+                        })
+                        .when('/editmyads/:param1', {
+                            templateUrl: 'MeusAnuncios/editmyads.html',
                         })
                         .otherwise('/anuncios', {
-                            templateUrl: 'anuncios.html'
+                            templateUrl: 'Anuncios/anuncios.html'
                         })
             }]);
 

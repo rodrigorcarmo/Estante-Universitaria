@@ -65,12 +65,15 @@ estanteApp.controller('RegisterController', ['$scope', '$location', '$http', fun
                 data: $.param($scope.user),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
-                 $('#sucess-modal').modal('show');
+                $('#sucess-modal').modal('show');
             });
         };
     }]);
 
 estanteApp.controller('UpdateController', ['$cookies', '$scope', '$location', '$http', function ($cookies, $scope, $location, $http) {
+        $('#sucess-modal').on('hidden.bs.modal', function () {
+            window.parent.location.href = "#usuario";
+        });
         $scope.updateUser = function () {
             var idUsuario = $cookies.getObject('idUsuario');
             var data = JSON.stringify($scope.user);
@@ -82,7 +85,7 @@ estanteApp.controller('UpdateController', ['$cookies', '$scope', '$location', '$
                 data: $.param(data),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
-                alert("Alteraçõs salvas com sucesso!");
+                $('#sucess-modal').modal('show');
             });
         };
     }]);
@@ -102,24 +105,24 @@ estanteApp.controller('BookController', ['$cookies', '$scope', '$location', '$ht
                 data: $.param(data),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
-                 $('#sucess-modal').modal('show');
+                $('#sucess-modal').modal('show');
             });
         };
 
     }]);
 
-estanteApp.controller('GetBooksController', ['$cookies','$scope','$modal', '$location', '$http', function ($cookies, $scope, $modal, $location, $http) {
+estanteApp.controller('GetBooksController', ['$cookies', '$scope', '$modal', '$location', '$http', function ($cookies, $scope, $modal, $location, $http) {
         $scope.openModal = function (_idLivro) {
             $cookies.put('idLivroDelete', _idLivro);
-            if($location.path('/livros')){
+            if ($location.path('/livros')) {
                 var modalInstance = $modal.open({
-                    templateUrl: 'deletebookmodal.html',
+                    templateUrl: 'Livro/deletebookmodal.html',
                     controller: 'DeleteBookController'
                 });
             }
-            else{
+            else {
                 var modalInstance = $modal.open({
-                    templateUrl: 'deletewishlistmodal.html',
+                    templateUrl: 'Wishlist/deletewishlistmodal.html',
                     controller: 'DeleteBookController'
                 });
             }
@@ -171,16 +174,16 @@ estanteApp.controller('UpdateBookController', ['$routeParams', '$scope', '$locat
         };
     }]);
 
-estanteApp.controller('DeleteBookController', ['$scope','$http','$cookies','$modalInstance','$location', function ($scope, $http, $cookies,$modalInstance,$location) {
-        $scope.closeModal = function (){
+estanteApp.controller('DeleteBookController', ['$scope', '$http', '$cookies', '$modalInstance', '$location', function ($scope, $http, $cookies, $modalInstance, $location) {
+        $scope.closeModal = function () {
             $modalInstance.close();
         };
         $scope.idLivro = $cookies.get('idLivroDelete');
         $cookies.remove('idLivroDelete');
         var data = {
-                "idLivro": $scope.idLivro,
-                "action": "delete"
-            };
+            "idLivro": $scope.idLivro,
+            "action": "delete"
+        };
         $scope.deleteBook = function () {
             $http({
                 method: 'POST',
@@ -199,7 +202,7 @@ estanteApp.controller('GetWishlistController', ['$modal', '$cookies', '$scope', 
         $scope.openModal = function (_idLivro) {
             $cookies.put('idWishlistDelete', _idLivro);
             var modalInstance = $modal.open({
-                templateUrl: 'deletewishlistmodal.html',
+                templateUrl: 'Wishlist/deletewishlistmodal.html',
                 controller: 'DeleteWishlistController'
             });
         };
@@ -227,16 +230,16 @@ estanteApp.controller('GetWishlistController', ['$modal', '$cookies', '$scope', 
 
     }]);
 
-estanteApp.controller('DeleteWishlistController', ['$scope','$http','$cookies','$modalInstance','$location', function ($scope, $http, $cookies,$modalInstance,$location) {
-        $scope.closeModal = function (){
+estanteApp.controller('DeleteWishlistController', ['$scope', '$http', '$cookies', '$modalInstance', '$location', function ($scope, $http, $cookies, $modalInstance, $location) {
+        $scope.closeModal = function () {
             $modalInstance.close();
         };
         $scope.idLivro = $cookies.get('idWishlistDelete');
         $cookies.remove('idWishlistDelete');
         var data = {
-                "idLivro": $scope.idLivro,
-                "action": "delete"
-            };
+            "idLivro": $scope.idLivro,
+            "action": "delete"
+        };
         $scope.deleteBook = function () {
             $http({
                 method: 'POST',
@@ -274,25 +277,24 @@ estanteApp.controller('UpdateWishlistController', ['$routeParams', '$scope', '$l
         };
     }]);
 
-
 estanteApp.directive("fileread", [function () {
-    return {
-        scope: {
-            fileread: "="
-        },
-        link: function (scope, element, attributes) {
-            element.bind("change", function (changeEvent) {
-                var reader = new FileReader();
-                reader.onload = function (loadEvent) {
-                    scope.$apply(function () {
-                        scope.fileread = loadEvent.target.result;
-                    });
-                }
-                reader.readAsDataURL(changeEvent.target.files[0]);
-            });
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        scope.$apply(function () {
+                            scope.fileread = loadEvent.target.result;
+                        });
+                    }
+                    reader.readAsDataURL(changeEvent.target.files[0]);
+                });
+            }
         }
-    }
-}]);
+    }]);
 
 estanteApp.controller('ViewBookController', ['$routeParams', '$scope', '$location', '$http', function ($routeParams, $scope, $location, $http) {
         var idLivro = $routeParams.param1;
@@ -332,8 +334,159 @@ estanteApp.controller('WishlistController', ['$cookies', '$scope', '$location', 
                 data: $.param(data),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
-                 $('#sucess-modal').modal('show');
+                $('#sucess-modal').modal('show');
             });
         };
 
+    }]);
+
+estanteApp.controller('MyAdsController', ['$cookies', '$scope', '$modal', '$location', '$http', function ($cookies, $scope, $modal, $location, $http) {
+        $('#sucess-modal').on('hidden.bs.modal', function () {
+            window.parent.location.href = "#meusanuncios";
+        });
+        $scope.insertAd = function () {
+            var idUsuario = $cookies.getObject('idUsuario');
+            var data = JSON.stringify($scope.ad);
+            data = data.replace('}', ', "idUsuario":"' + idUsuario + '"}');
+            data = $.parseJSON(data);
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function sucessCallback(data) {
+                $('#sucess-modal').modal('show');
+            });
+        };
+        var idUsuario = $cookies.getObject('idUsuario');
+        var data =
+                {
+                    "idUsuario": idUsuario,
+                    "action": "getBooks"
+                };
+        $http({
+            method: 'POST',
+            url: '/BookController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.livros = data;
+        });
+
+    }]);
+
+estanteApp.controller('GetAdController', ['$modal', '$cookies', '$scope', '$rootScope', '$http', function ($modal, $cookies, $scope, $rootScope, $http) {
+        $scope.openModal = function (_idAnuncio) {
+            $cookies.put('idAdDelete', _idAnuncio);
+            var modalInstance = $modal.open({
+                templateUrl: 'MeusAnuncios/deleteadmodal.html',
+                controller: 'DeleteAdController'
+            });
+        };
+
+        var update = function (callback) {
+            var idUsuario = $cookies.getObject('idUsuario');
+            var data =
+                    {
+                        "idUsuario": idUsuario,
+                        "action": "getAds"
+                    };
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $scope.ads = data;
+                callback(data);
+            });
+        };
+        update(function (data) {
+            $scope.ads = data;
+        });
+
+    }]);
+
+estanteApp.controller('ViewAdController', ['$routeParams', '$scope', '$location', '$http', function ($routeParams, $scope, $location, $http) {
+        var idAnuncio = $routeParams.param1;
+        var update = function (callback) {
+            var data =
+                    {
+                        "idAnuncio": idAnuncio,
+                        "action": "getAdById"
+                    };
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $scope.ad = data;
+                callback(data);
+            });
+        };
+        update(function (data) {
+            $scope.ad = data;
+        });
+    }]);
+
+estanteApp.controller('DeleteAdController', ['$scope', '$http', '$cookies', '$modalInstance', '$location', function ($scope, $http, $cookies, $modalInstance, $location) {
+        $scope.closeModal = function () {
+            $modalInstance.close();
+        };
+        $scope.idAnuncio = $cookies.get('idAdDelete');
+        $cookies.remove('idAdDelete');
+        var data = {
+            "idAnuncio": $scope.idAnuncio,
+            "action": "delete"
+        };
+        $scope.deleteBook = function () {
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function () {
+                $modalInstance.close();
+                window.parent.location.href = "#meusanuncios";
+
+            });
+        };
+    }]);
+
+estanteApp.controller('UpdateAdController', ['$routeParams', '$scope', '$cookies','$location', '$http', function ($routeParams, $scope, $cookies, $location, $http) {
+
+        $('#sucess-modal').on('hidden.bs.modal', function () {
+            window.parent.location.href = "#meusanuncios";
+        });
+        
+        var idUsuario = $cookies.getObject('idUsuario');
+        var data =
+                {
+                    "idUsuario": idUsuario,
+                    "action": "getBooks"
+                };
+        $http({
+            method: 'POST',
+            url: '/BookController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.livros = data;
+        });
+        
+        $scope.updateAd = function () {
+            var idAnuncio = $routeParams.param1;
+            var data = JSON.stringify($scope.ad);
+            data = data.replace('}', ', "idAnuncio":"' + idAnuncio+ '"}');
+            data = $.parseJSON(data);
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function sucessCallback(data) {
+                $('#sucess-modal').modal('show');
+            });
+        };
     }]);

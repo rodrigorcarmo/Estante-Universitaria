@@ -55,12 +55,17 @@ estanteApp.controller('LoginController', ['$cookies', '$scope', '$location', '$h
     }]);
 
 estanteApp.controller('RegisterController', ['$scope', '$location', '$http', function ($scope, $location, $http) {
+        $('#sucess-modal').on('hidden.bs.modal', function () {
+            window.parent.location.href = "#home";
+        });
         $scope.insertUser = function () {
             $http({
                 method: 'POST',
                 url: '/UserController',
                 data: $.param($scope.user),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function sucessCallback(data) {
+                 $('#sucess-modal').modal('show');
             });
         };
     }]);

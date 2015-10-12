@@ -65,7 +65,6 @@ estanteApp.controller('RegisterController', ['$scope', '$location', '$http', fun
                 data: $.param($scope.user),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
-                alert("Cadastrou!");
                  $('#sucess-modal').modal('show');
             });
         };

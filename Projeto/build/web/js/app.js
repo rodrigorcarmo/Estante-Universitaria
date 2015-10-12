@@ -1,4 +1,4 @@
-var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies'])
+var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies','ui.bootstrap'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider
                         .when('/home', {
@@ -30,6 +30,13 @@ var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies'])
                         })
                         .when('/wishlist', {
                             templateUrl: 'wishlist.html'
+                        })
+                        .when('/addlivro', {
+                            templateUrl: 'addlivro.html'
+                        }).
+                        when('/editlivro/:param1/:param2', {
+                        templateUrl: 'editlivro.html',    
+    
                         })
                         .otherwise('/anuncios', {
                             templateUrl: 'anuncios.html'

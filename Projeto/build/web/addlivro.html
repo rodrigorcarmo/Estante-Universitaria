@@ -1,0 +1,39 @@
+<h3>Adicionar Livro</h3>
+<div ng-controller="BookController"> 
+<form ng-submit="insertBook()">
+  <div class="row">
+ <div class="form-group col-md-4">
+   <label for="campo1">Nome</label>
+   <input type="text" ng-model="book.nome" class="form-control" required>
+ </div>
+ 
+ <div class="form-group col-md-4">
+   <label for="campo2">Autor</label>
+   <input type="text" ng-model="book.autor" class="form-control" required>
+ </div>
+ 
+ <div class="form-group col-md-4">
+   <label for="campo3">Editora</label>
+   <input type="text" ng-model="book.editora" class="form-control" required>
+ </div>
+  <div class="form-group col-md-4">
+   <label for="campo3">Edição</label>
+   <input type="text" ng-model="book.edicao" class="form-control" required>
+ </div>
+   <div class="form-group col-md-4">
+   <label for="campo3">Ano</label>
+   <input type="text" ng-model="book.ano" class="form-control" required>
+ </div>
+       <div class="form-group col-md-4" >
+   <label for="campo3">Condições</label>
+   <input type="text" ng-model="book.condicao" class="form-control" required>
+   <input type="hidden" ng-model="book.action" ng-init="book.action='Add'">
+   <input type="hidden" ng-model="book.wishlist" ng-init="book.wishlist='0'">
+ </div>
+      
+</div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="#livros" class="btn btn-default">Voltar</a>
+
+</form>
+</div>

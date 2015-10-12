@@ -53,6 +53,11 @@ public class BookController extends HttpServlet {
         }else if(action.equalsIgnoreCase("DELETE")){
             int idLivro = Integer.valueOf(request.getParameter("idLivro"));
             BookPersistence.deleteBook(idLivro);
+        }else if(action.equalsIgnoreCase("GETBOOKBYID")){
+            int idLivro = Integer.valueOf(request.getParameter("idLivro"));
+            JsonObject book = BookPersistence.getBookById(idLivro);
+            PrintWriter pw = response.getWriter();
+            pw.println(book);
         }
     }
 

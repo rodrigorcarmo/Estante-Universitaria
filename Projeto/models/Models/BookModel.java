@@ -1,6 +1,9 @@
 
 package Models;
 
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class BookModel {
     private String nome;
     private String autor;
@@ -9,6 +12,15 @@ public class BookModel {
     private int ano;
     private String condicao;
     private int wishlist;
+    private String imagem;
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
 
     public String getNome() {
         return nome;

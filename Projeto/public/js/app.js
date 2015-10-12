@@ -31,11 +31,26 @@ var estanteApp = angular.module('estanteApp', ['ngRoute','ngCookies','ui.bootstr
                         .when('/wishlist', {
                             templateUrl: 'wishlist.html'
                         })
+                                .when('/addwishlist', {
+                            templateUrl: 'addwishlist.html'
+                        })
                         .when('/addlivro', {
                             templateUrl: 'addlivro.html'
-                        }).
-                        when('/editlivro/:param1/:param2', {
+                        })
+                        .when('/editlivro/:param1/:param2', {
                         templateUrl: 'editlivro.html',    
+    
+                        })
+                        .when('/editwishlist/:param1/:param2', {
+                        templateUrl: 'editwishlist.html',    
+    
+                        })
+                        .when('/viewlivro/:param1', {
+                        templateUrl: 'viewlivro.html',    
+    
+                        })
+                        .when('/viewwishlist/:param1', {
+                        templateUrl: 'viewwishlist.html',    
     
                         })
                         .otherwise('/anuncios', {

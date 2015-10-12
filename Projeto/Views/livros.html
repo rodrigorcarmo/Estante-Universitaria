@@ -26,7 +26,7 @@
             </thead>
             <tbody>
  
-                <tr ng-repeat="livro in livros">
+                <tr ng-repeat="livro in livros" ng-if="livro.wishlist === 0">
                     <td>{{livro.nome}}</td>
                     <td>{{livro.autor}}</td>
                     <td>{{livro.edicao}}</td>
@@ -34,6 +34,7 @@
                     <td>{{livro.ano}}</td>
                     <td>{{livro.condicao}}</td>
                     <td class="actions">
+                        <a class="btn btn-success btn-xs" href="#viewlivro/{{livro.idLivro}}">Visualizar</a>
                         <a class="btn btn-warning btn-xs" href="#editlivro/{{livro.idLivro}}/{{livro.nome}}">Editar</a>
                         <a class="btn btn-danger btn-xs"  ng-click="openModal(livro.idLivro)">Excluir</a>
                     </td>

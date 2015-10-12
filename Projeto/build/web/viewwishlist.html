@@ -1,0 +1,29 @@
+<div ng-controller="ViewBookController">
+    <img class="view-image float_l" src="{{livro.imagem}}"/>
+    <h3>&nbsp&nbsp{{livro.nome}}</h3>
+  <div class="row">
+ <div class="form-group col-md-4">
+   <label for="campo2">Autor</label>
+   <p><strong>{{livro.autor}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Edição</label>
+   <p><strong>{{livro.edicao}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Editora</label>
+   <p><strong>{{livro.editora}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Ano</label>
+   <p><strong>{{livro.ano}}</strong></p>
+ </div>
+
+</div>
+    <p></p>
+    <div id="actions" class="row center-block">
+ <div class="col-md-12">
+  <a class="btn btn-primary" href="#editwishlist/{{livro.idLivro}}/{{livro.nome}}">Editar</a>
+  <a href="#wishlist" class="btn btn-default">Voltar</a>
+ </div>
+</div> 

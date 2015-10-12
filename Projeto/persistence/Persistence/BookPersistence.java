@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,8 +28,8 @@ public class BookPersistence {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = db.getConnection();
             String insertTableSQL = "INSERT INTO LIVRO"
-                    + "(nome, autor, editora, edicao, ano, condicao, wishlist, idUsuario )"
-                    + " VALUES (+?,?,?,?,?,?,?,?)";
+                    + "(nome, autor, editora, edicao, ano, condicao, wishlist, idUsuario, imagem )"
+                    + " VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, book.getNome());
             preparedStatement.setString(2, book.getAutor());
@@ -38,6 +39,7 @@ public class BookPersistence {
             preparedStatement.setString(6, book.getCondicao());
             preparedStatement.setInt(7, book.isWishlist());
             preparedStatement.setInt(8, idUsuario);
+            preparedStatement.setString(9, book.getImagem());
             preparedStatement.execute();
             preparedStatement.close();
             conn.close();
@@ -64,6 +66,8 @@ public class BookPersistence {
                 book.addProperty("edicao",rs.getString("edicao"));
                 book.addProperty("ano",rs.getInt("ano"));
                 book.addProperty("condicao",rs.getString("condicao"));
+                book.addProperty("wishlist",rs.getInt("wishlist"));
+                book.addProperty("imagem",rs.getString("imagem"));
                 result.add(book);
             }
             conn.close();
@@ -99,7 +103,7 @@ public class BookPersistence {
 
     }
     
-     public static void deleteBook(int id) {
+    public static void deleteBook(int id) {
         DbInstance db = new DbInstance();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -112,5 +116,32 @@ public class BookPersistence {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public static JsonObject getBookById(int idLivro){
+       JsonObject book = new JsonObject();
+        DbInstance db = new DbInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = db.getConnection();
+            String sql = "SELECT * FROM livro WHERE idLivro = "+idLivro;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                book.addProperty("idLivro", rs.getInt("idLivro"));
+                book.addProperty("nome",rs.getString("nome"));
+                book.addProperty("autor",rs.getString("autor"));
+                book.addProperty("editora",rs.getString("editora"));
+                book.addProperty("edicao",rs.getString("edicao"));
+                book.addProperty("ano",rs.getInt("ano"));
+                book.addProperty("condicao",rs.getString("condicao"));
+                book.addProperty("wishlist",rs.getInt("wishlist"));
+                book.addProperty("imagem",rs.getString("imagem"));
+            }
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return book; 
     }
 }

@@ -2,11 +2,10 @@
 package Persistence;
 
 import Controllers.AdController;
-import Controllers.BookController;
 import Controllers.UserController;
 import DataBase.DbInstance;
 import Models.AdModel;
-import Models.BookModel;
+import Models.UserModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -84,8 +83,11 @@ public class AdPersistence {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 ad = BookPersistence.getBookById(rs.getInt("idLivro"));
+                UserModel user = UserPersistence.getUserById(rs.getInt("idUsuario"));
+                ad.addProperty("usuario", user.getNome());
                 ad.addProperty("tipo",rs.getString("tipo"));
                 ad.addProperty("valor",rs.getDouble("valor"));
+                ad.addProperty("idAnuncio",rs.getDouble("idAnuncio"));
             }
             conn.close();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -134,4 +136,29 @@ public class AdPersistence {
         }
 
     }
+    
+    public static JsonArray getAllAds(){
+        JsonArray result = new JsonArray();
+        DbInstance db = new DbInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = db.getConnection();
+            String sql = "SELECT * FROM anuncio";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                JsonObject ad = BookPersistence.getBookById(rs.getInt("idLivro"));
+                UserModel user = UserPersistence.getUserById(rs.getInt("idUsuario"));
+                ad.addProperty("tipo",rs.getString("tipo"));
+                ad.addProperty("valor",rs.getDouble("valor"));
+                ad.addProperty("idAnuncio", rs.getInt("idAnuncio"));
+                ad.addProperty("usuario", user.getNome());
+                result.add(ad);
+            }
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AdController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+}
 }

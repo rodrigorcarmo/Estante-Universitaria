@@ -121,4 +121,34 @@ public class UserPersistence {
         }
         return um;
     }
+    
+    public static UserModel getUserById(int id){
+        UserModel um = new UserModel();
+        DbInstance db = new DbInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = db.getConnection();
+            String selectUser = "SELECT * from usuario where idUsuario = " +id;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(selectUser);
+            while(rs.next()){
+                um.setCelular(rs.getString("celular"));
+                um.setCep(rs.getString("cep"));
+                um.setCidade(rs.getString("cidade"));
+                um.setEmail(rs.getString("email"));
+                um.setEndComplemento(rs.getString("endcomplemento"));
+                um.setEndNum(rs.getInt("endnum"));
+                um.setEndereco(rs.getString("endereco"));
+                um.setNome(rs.getString("nome"));
+                um.setPassword(rs.getString("password"));
+                um.setTelefone(rs.getString("telefone"));
+                um.setUniversidade(rs.getString("universidade"));
+                um.setIdUsuario(rs.getInt("idUsuario"));
+            }
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return um;
+    }
 }

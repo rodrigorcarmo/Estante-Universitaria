@@ -49,7 +49,7 @@ public class AdController extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(AdController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if (action.equalsIgnoreCase("GETads")) {
+        }else if (action.equalsIgnoreCase("GETADS")) {
             int idUsuario = Integer.valueOf(request.getParameter("idUsuario"));
             JsonArray data = AdPersistence.getAds(idUsuario);
             PrintWriter pw = response.getWriter();
@@ -65,6 +65,10 @@ public class AdController extends HttpServlet {
         }else if (action.equalsIgnoreCase("UPDATE")) {
             JsonObject teste = requestParamsToJSON(request);
             AdPersistence.updateAd(teste, request.getParameter("idAnuncio"));
+        }else if (action.equalsIgnoreCase("GETALLADS")) {
+            JsonArray data = AdPersistence.getAllAds();
+            PrintWriter pw = response.getWriter();
+            pw.println(data);
         }
 
     }

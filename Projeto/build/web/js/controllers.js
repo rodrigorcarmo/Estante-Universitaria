@@ -1,14 +1,20 @@
 estanteApp.controller('HeaderController', ['$cookies', '$scope', '$location', function ($cookies, $scope, $location) {
+        
         $scope.checkIfLogged = function () {
             var idUsuario = -1;
 
             if (typeof $cookies.getObject('idUsuario') != "undefined") {
                 idUsuario = $cookies.getObject('idUsuario');
             }
-            if (idUsuario > 0)
+            if (idUsuario > 0){
+                $("#adFavoriteId").removeClass("hidden");
+            
                 return true;
-            else
+            }
+            else{
+                $("#adFavoriteId").addClass("hidden");
                 return false;
+            }
         };
 
         $scope.logout = function () {
@@ -55,10 +61,12 @@ estanteApp.controller('LoginController', ['$cookies', '$scope', '$location', '$h
     }]);
 
 estanteApp.controller('RegisterController', ['$scope', '$location', '$http', function ($scope, $location, $http) {
+
         $('#sucess-modal').on('hidden.bs.modal', function () {
             window.parent.location.href = "#home";
         });
         $scope.insertUser = function () {
+
             $http({
                 method: 'POST',
                 url: '/UserController',
@@ -67,6 +75,7 @@ estanteApp.controller('RegisterController', ['$scope', '$location', '$http', fun
             }).then(function sucessCallback(data) {
                 $('#sucess-modal').modal('show');
             });
+
         };
     }]);
 
@@ -454,12 +463,11 @@ estanteApp.controller('DeleteAdController', ['$scope', '$http', '$cookies', '$mo
         };
     }]);
 
-estanteApp.controller('UpdateAdController', ['$routeParams', '$scope', '$cookies','$location', '$http', function ($routeParams, $scope, $cookies, $location, $http) {
-
+estanteApp.controller('UpdateAdController', ['$routeParams', '$scope', '$cookies', '$location', '$http', function ($routeParams, $scope, $cookies, $location, $http) {
         $('#sucess-modal').on('hidden.bs.modal', function () {
             window.parent.location.href = "#meusanuncios";
         });
-        
+
         var idUsuario = $cookies.getObject('idUsuario');
         var data =
                 {
@@ -474,11 +482,11 @@ estanteApp.controller('UpdateAdController', ['$routeParams', '$scope', '$cookies
         }).success(function callback(data) {
             $scope.livros = data;
         });
-        
+
         $scope.updateAd = function () {
             var idAnuncio = $routeParams.param1;
             var data = JSON.stringify($scope.ad);
-            data = data.replace('}', ', "idAnuncio":"' + idAnuncio+ '"}');
+            data = data.replace('}', ', "idAnuncio":"' + idAnuncio + '"}');
             data = $.parseJSON(data);
             $http({
                 method: 'POST',
@@ -487,6 +495,131 @@ estanteApp.controller('UpdateAdController', ['$routeParams', '$scope', '$cookies
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
                 $('#sucess-modal').modal('show');
+            });
+        };
+    }]);
+
+estanteApp.controller('AllAdsController', ['$routeParams', '$scope', '$location', '$http', function ($routeParams, $scope, $location, $http) {
+        var chunk = function (arr, size) {
+            var newArr = [];
+            for (var i = 0; i < arr.length; i += size) {
+                newArr.push(arr.slice(i, i + size));
+            }
+            return newArr;
+        };
+
+        var update = function (callback) {
+            var data =
+                    {
+                        "action": "getAllAds"
+                    };
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $scope.ads = chunk(data, 3);
+                callback(data);
+            });
+        };
+        update(function (data) {
+            $scope.ads = chunk(data, 3);
+        });
+    }]);
+
+estanteApp.controller('ViewDetailedAdController', ['$routeParams', '$scope', '$location', '$http', function ($routeParams, $scope, $location, $http) {
+        var idAnuncio = $routeParams.param1;
+        var data =
+                {
+                    "idAnuncio": idAnuncio,
+                    "action": "getAdById"
+                };
+        $http({
+            method: 'POST',
+            url: '/AdController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.ad = data;
+        });
+    }]);
+
+estanteApp.controller('AddFavoriteController', ['$routeParams','$cookies', '$scope', '$modal', '$location', '$http', function ($routeParams, $cookies, $scope, $modal, $location, $http) {
+        $scope.addFavorite = function () {
+            var idUsuario = $cookies.getObject('idUsuario');
+            var idAnuncio = $routeParams.param1;
+            var data = {
+                "idUsuario":idUsuario,
+                "idAnuncio":idAnuncio,
+                "action":"Add"
+            }
+            $http({
+                method: 'POST',
+                url: '/FavoriteController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function sucessCallback(data) {
+                var result = data.data.resultado;
+                if(result === 1)
+                    $('#sucess-modal').modal('show');
+                else
+                    $('#fail-modal').modal('show');
+            });
+        };
+    }]);
+
+estanteApp.controller('FavoritesController', ['$modal', '$cookies', '$scope', '$rootScope', '$http', function ($modal, $cookies, $scope, $rootScope, $http) {
+       $scope.openModal = function (_idFavorito) {
+            $cookies.put('idFavoriteDelete', _idFavorito);
+            var modalInstance = $modal.open({
+                templateUrl: 'Favoritos/deletefavoritemodal.html',
+                controller: 'DeleteFavoriteController'
+            });
+        };
+        var update = function (callback) {
+            var idUsuario = $cookies.getObject('idUsuario');
+            var data =
+                    {
+                        "idUsuario": idUsuario,
+                        "action": "getFavorites"
+                    };
+            $http({
+                method: 'POST',
+                url: '/FavoriteController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $scope.favorites = data;
+                callback(data);
+            });
+        };
+        update(function (data) {
+            $scope.favorites = data;
+        });
+
+    }]);
+
+estanteApp.controller('DeleteFavoriteController', ['$scope', '$http', '$cookies', '$modalInstance', '$location', function ($scope, $http, $cookies, $modalInstance, $location) {
+        $scope.closeModal = function () {
+            $modalInstance.close();
+        };
+        $scope.idFavorito = $cookies.get('idFavoriteDelete');
+        $cookies.remove('idFavoriteDelete');
+        var data = {
+            "idFavorito": $scope.idFavorito,
+            "action": "delete"
+        };
+        $scope.deleteFavorite = function () {
+            $http({
+                method: 'POST',
+                url: '/FavoriteController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function () {
+                $modalInstance.close();
+                window.parent.location.href = "#favoritos";
+
             });
         };
     }]);

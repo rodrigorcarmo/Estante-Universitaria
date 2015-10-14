@@ -1,0 +1,12 @@
+<div ng-controller="AllAdsController">
+    <div class="row" ng-repeat="chunk in ads">
+        <div class="col-md-4" ng-repeat="ad in chunk">
+
+            <h3>{{ad.nome}}</h3>
+            <img src="{{ad.imagem}}" width="160" height="180" />
+            <p><strong>{{ad.tipo}}</strong> - <strong>R$ {{ad.valor}}</strong></p>
+            <p><strong>Postado por: {{ad.usuario}}</strong></p>
+            <a class="btn btn-primary" href="#viewad/{{ad.idAnuncio}}">Detalhes</a>
+        </div>
+    </div>
+</div>

@@ -13,8 +13,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/public/js/controllers.js</file>
-            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/addlivro.html</file>
-            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/addwishlist.html</file>
+            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/home.html</file>
+            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/Anuncios/viewad.html</file>
+            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/shared.html</file>
+            <file>file:/C:/Users/Pedro/Documents/EstanteUniversitaria/Projeto/views/Anuncios/anuncios.html</file>
         </group>
     </open-files>
 </project-private>

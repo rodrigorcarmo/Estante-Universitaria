@@ -40,6 +40,14 @@ public class UserController extends HttpServlet {
             JsonObject teste = requestParamsToJSON(request);
             UserPersistence.updateUser(teste, request.getParameter("id"));
         }
+        else if(action.equalsIgnoreCase("GETUSER")){
+            String idUsuario = request.getParameter("idUsuario");
+            PrintWriter pw = response.getWriter();
+            UserModel um = UserPersistence.getUserById(Integer.valueOf(idUsuario));
+            Gson gson = new Gson();
+            JsonObject usuario = (JsonObject) gson.toJsonTree(um, UserModel.class);
+            pw.println(usuario);
+        }
     }
 
     public JsonObject requestParamsToJSON(HttpServletRequest req) {

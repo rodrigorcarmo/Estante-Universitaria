@@ -8,10 +8,11 @@ estanteApp.controller('HeaderController', ['$cookies', '$scope', '$location', fu
             }
             if (idUsuario > 0){
                 $("#adFavoriteId").removeClass("hidden");
-            
+                 $("#helloUserId").removeClass("hidden");
                 return true;
             }
             else{
+                 $("#helloUserId").addClass("hidden");
                 $("#adFavoriteId").addClass("hidden");
                 return false;
             }
@@ -81,7 +82,7 @@ estanteApp.controller('RegisterController', ['$scope', '$location', '$http', fun
 
 estanteApp.controller('UpdateController', ['$cookies', '$scope', '$location', '$http', function ($cookies, $scope, $location, $http) {
         $('#sucess-modal').on('hidden.bs.modal', function () {
-            window.parent.location.href = "#usuario";
+            window.parent.location.reload();
         });
         $scope.updateUser = function () {
             var idUsuario = $cookies.getObject('idUsuario');
@@ -622,4 +623,34 @@ estanteApp.controller('DeleteFavoriteController', ['$scope', '$http', '$cookies'
 
             });
         };
+    }]);
+
+estanteApp.controller('GetUserController', ['$modal', '$cookies', '$scope', '$rootScope', '$http', '$location', function ($modal, $cookies, $scope, $rootScope, $http, $location) {
+        
+        $scope.logout = function () {
+            $cookies.remove('idUsuario');
+            $location.path('/home');
+        }
+        
+        var update = function (callback) {
+            var idUsuario = $cookies.getObject('idUsuario');
+            var data =
+                    {
+                        "idUsuario": idUsuario,
+                        "action": "GETUSER"
+                    };
+            $http({
+                method: 'POST',
+                url: '/UserController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $scope.user = data;
+                callback(data);
+            });
+        };
+        update(function (data) {
+            $scope.user = data;
+        });
+
     }]);

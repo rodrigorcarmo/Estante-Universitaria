@@ -2,10 +2,15 @@
     <div class="container-fluid">
         <div class="site_title">
             <h1><a href="#">De universitários para universitários</a></h1>
-        </div>  
+        </div>
         <div class="search-logo">
+            <div id="helloUserId" ng-controller="GetUserController">
+            <strong style="padding-left: 600px; padding-bottom: 400px">Olá {{user.nome}}!</strong>
+            <button ng-click="logout()" class="btn btn-primary btn-xs">Sair</button>
+            </div>
             <img src="images/header_bg.png" class="img-responsive ">
         </div>
+        
     </div>
 
     <div class="navbar-outer center-block">

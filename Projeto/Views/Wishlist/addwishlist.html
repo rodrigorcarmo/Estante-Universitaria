@@ -1,0 +1,52 @@
+<h3>Adicionar Livro na Wishlist</h3>
+<div ng-controller="WishlistController"> 
+<form ng-submit="insertBook()">
+  <div class="row">
+ <div class="form-group col-md-4">
+   <label for="campo1">Nome</label>
+   <input type="text" ng-model="book.nome" class="form-control" required>
+ </div>
+ 
+ <div class="form-group col-md-4">
+   <label for="campo2">Autor</label>
+   <input type="text" ng-model="book.autor" class="form-control" required>
+ </div>
+ 
+ <div class="form-group col-md-4">
+   <label for="campo3">Editora</label>
+   <input type="text" ng-model="book.editora" class="form-control" required>
+ </div>
+  <div class="form-group col-md-4">
+   <label for="campo3">Edição</label>
+   <input type="text" ng-model="book.edicao" class="form-control" required>
+ </div>
+   <div class="form-group col-md-4">
+   <label for="campo3">Ano</label>
+   <input type="text" ng-model="book.ano" class="form-control" required>
+ </div>
+   <input type="hidden" ng-model="book.action" ng-init="book.action='Add'">
+   <input type="hidden" ng-model="book.wishlist" ng-init="book.wishlist='1'">
+      <div class="form-group col-md-8">
+   <label for="campo3">Imagem</label>
+   <input type="file" fileread="book.imagem" class="form-control">
+ </div> 
+</div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="#wishlist" class="btn btn-default">Voltar</a>
+
+</form>
+</div>
+
+ <div class="modal fade" id="sucess-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Livro cadastrado com sucesso na sua Wishlist!</h4>
+      </div>
+      <div class="modal-footer">
+       <a data-dismiss="modal" class="btn btn-default">Voltar</a>
+      </div>
+    </div>
+  </div>
+</div>

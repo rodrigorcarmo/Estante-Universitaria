@@ -1,0 +1,47 @@
+<div ng-controller="UpdateAdController"> 
+    <h3>Editar Anúncio</h3>
+<form ng-submit="updateAd()">
+  <form>
+  <div class="row">
+ <div class="form-group col-md-4">
+   <label for="campo1">Livro</label>
+   <select ng-model="ad.idLivro" class="form-control" id="livroSelectId">
+       <option ng-repeat="livro in livros" value="{{livro.idLivro}}">{{livro.nome}}</option>
+   </select>
+ </div>
+ <div class="form-group col-md-4">
+   <label for="campo2">Tipo</label>
+   <select ng-model="ad.tipo" class="form-control" id="tipoSelectedId">
+       <option>Troca</option>
+       <option>Venda</option>
+       <option>Troca/Venda</option>
+   </select>
+ </div>
+  <div class="form-group col-md-4">
+   <label for="campo2">Valor</label>
+   <input type="text" ng-model="ad.valor" class="form-control">
+   <input type="hidden" ng-model="ad.action" ng-init="ad.action='Update'">
+ </div>
+ 
+   
+</div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="#meusanuncios" class="btn btn-default">Voltar</a>
+
+
+</form>
+</div>
+ <div class="modal fade" id="sucess-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Alterações realizadas com sucesso!</h4>
+      </div>
+      <div class="modal-footer">
+       <a data-dismiss="modal" class="btn btn-default">Voltar</a>
+      </div>
+    </div>
+  </div>
+</div>
+

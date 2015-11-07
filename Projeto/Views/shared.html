@@ -1,0 +1,57 @@
+<div class="body_wrapper">
+    <div class="container-fluid">
+        <div class="site_title">
+            <h1><a href="#">De universitários para universitários</a></h1>
+        </div>  
+        <div class="search-logo">
+            <img src="images/header_bg.png" class="img-responsive ">
+        </div>
+    </div>
+
+    <div class="navbar-outer center-block">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="HeaderController">
+                    <ul id="navBarId" class="nav navbar-nav">
+                        <li ng-if="!checkIfLogged()" ng-class="{active: isActive('#home')}"><a href="#home">Home</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#usuario')}"><a href="#usuario">Meu Perfil</a></li>
+                        <li ng-class="{active: isActive('#anuncios')}"><a href="#anuncios">Todos Anúncios</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#meusanuncios')}"><a href="#meusanuncios">Meus Anúncios</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#livros')}"><a href="#livros">Livros</a></li>  
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#wishlist')}"><a href="#wishlist">Wishlist</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#favoritos')}"><a href="#favoritos">Favoritos</a></li>
+                        <li ng-class="{active: isActive('#quemsomos')}"><a href="#quemsomos">Quem Somos</a></li>
+                        <li ng-class="{active: isActive('#faleconosco')}"><a href="#faleconosco">Fale Conosco</a></li>
+                        <li ng-if="!checkIfLogged()" ng-class="{active: isActive('#cadastrar')}"><a href="#cadastrar">Cadastrar</a></li>
+                        <li ng-if="!checkIfLogged()" ng-class="{active: isActive('#entre')}"><a href="#entre">Entre</a></li>
+                        <li ng-if="checkIfLogged()" ng-class="{active: isActive('#usuario')}"><a href="#home" ng-click="logout()">Logout</a></li>
+                        <li ng-if="!checkIfLogged()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</li>
+                        <li ng-if="!checkIfLogged()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</li>
+                        <li ng-if="!checkIfLogged()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</li>
+                   </ul>
+
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="search-form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Pesquisar Anúncios">
+                            </div>
+                            <button type="submit" class="btn btn-default">Enviar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

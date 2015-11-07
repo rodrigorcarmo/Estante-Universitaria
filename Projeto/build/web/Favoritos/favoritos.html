@@ -1,0 +1,40 @@
+<div>
+<div class="input-group h2 col-md-6 search-book">
+<input name="data[search]" class="form-control search-book" id="search" type="text" placeholder="Pesquisar Favoritos">
+         <span class="input-group-btn">
+                 <button class="btn btn-primary" type="submit">
+                     <span class="fa fa-search"></span>
+                 </button>
+         </span>
+ </div>
+</div>
+
+<div id="list" class="row" ng-controller="FavoritesController">
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Usuário</th>
+                    <th class="actions">Ações</th>
+                 </tr>
+            </thead>
+            <tbody>
+ 
+                <tr ng-repeat="fav in favorites">
+                    <td>{{fav.nome}}</td>
+                    <td>{{fav.tipo}}</td>
+                    <td>{{fav.valor}}</td>
+                    <td>{{fav.usuario}}</td>
+                    <td class="actions">
+                        <a class="btn btn-success btn-xs" href="#viewad/{{fav.idAnuncio}}">Visualizar</a>
+                        <a class="btn btn-danger btn-xs"  ng-click="openModal(fav.idFavorito)">Excluir</a>
+                    </td>
+                </tr>
+ 
+            </tbody>
+         </table>
+     </div>
+ </div> 

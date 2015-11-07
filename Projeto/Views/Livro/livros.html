@@ -1,0 +1,46 @@
+<div>
+<div class="input-group h2 col-md-6 search-book">
+<input name="data[search]" class="form-control search-book" id="search" type="text" placeholder="Pesquisar Livros">
+         <span class="input-group-btn">
+                 <button class="btn btn-primary" type="submit">
+                     <span class="fa fa-search"></span>
+                 </button>
+         </span>
+<a  href="#addlivro" class="btn btn-primary pull-right float_r">Adicionar Livro</a>
+ </div>
+</div>
+
+<div id="list" class="row" ng-controller="GetBooksController">
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Autor</th>
+                    <th>Edição</th>
+                    <th>Editora</th>
+                    <th>Ano</th>
+                    <th>Condições</th>
+                    <th class="actions">Ações</th>
+                 </tr>
+            </thead>
+            <tbody>
+ 
+                <tr ng-repeat="livro in livros" ng-if="livro.wishlist === 0">
+                    <td>{{livro.nome}}</td>
+                    <td>{{livro.autor}}</td>
+                    <td>{{livro.edicao}}</td>
+                    <td>{{livro.editora}}</td>
+                    <td>{{livro.ano}}</td>
+                    <td>{{livro.condicao}}</td>
+                    <td class="actions">
+                        <a class="btn btn-success btn-xs" href="#viewlivro/{{livro.idLivro}}">Visualizar</a>
+                        <a class="btn btn-warning btn-xs" href="#editlivro/{{livro.idLivro}}/{{livro.nome}}">Editar</a>
+                        <a class="btn btn-danger btn-xs"  ng-click="openModal(livro.idLivro)">Excluir</a>
+                    </td>
+                </tr>
+ 
+            </tbody>
+         </table>
+     </div>
+ </div> 

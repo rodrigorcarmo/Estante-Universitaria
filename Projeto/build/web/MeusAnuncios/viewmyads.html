@@ -1,0 +1,44 @@
+<div ng-controller="ViewAdController">
+    <img class="view-image float_l" src="{{ad.imagem}}"/>
+    <h3>&nbsp&nbsp{{ad.nome}}</h3>
+  <div class="row">
+ <div class="form-group col-md-4">
+   <label for="campo2">Autor</label>
+   <p><strong>{{ad.autor}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Edição</label>
+   <p><strong>{{ad.edicao}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Editora</label>
+   <p><strong>{{ad.editora}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Ano</label>
+   <p><strong>{{ad.ano}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Condições</label>
+   <p><strong>{{ad.condicao}}</strong></p>
+ </div>
+      <div class="form-group col-md-4">
+   <label for="campo2">Tipo</label>
+   <p><strong>{{ad.tipo}}</strong></p>
+ </div>
+      
+      <div class="form-group col-md-13">
+   <label for="campo2">Valor</label>
+   <p><strong>R${{ad.valor}}</strong></p>
+ </div>
+      
+</div>
+
+</div> 
+
+    <div id="actions" class="row center-block">
+ <div class="col-md-12">
+  <a class="btn btn-primary" href="#editmyads/{{ad.idAnuncio}}">Editar</a>
+  <a href="#meusanuncios" class="btn btn-default">Voltar</a>
+ </div>
+</div> 

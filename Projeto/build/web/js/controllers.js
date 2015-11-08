@@ -546,6 +546,26 @@ estanteApp.controller('ViewDetailedAdController', ['$routeParams', '$scope', '$l
         });
     }]);
 
+estanteApp.controller('AskAdController', ['$routeParams','$scope', '$cookies', '$http', function ($routeParams,$scope, $cookies, $http) {
+    var idAnuncio = $routeParams.param1;
+    var idUsuario = $cookies.getObject('idUsuario');
+    var requisicao = {
+        "idUsuario": idUsuario,
+        "question": $scope.question,
+        "idAnuncio":idAnuncio,
+        "action":"question"
+
+    };
+    $scope.askAd = function(){
+        $http({
+            method: 'POST',
+            url: '/AdController',
+            data: $.param(requisicao),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+   }
+}]);
+
 estanteApp.controller('AddFavoriteController', ['$routeParams','$cookies', '$scope', '$modal', '$location', '$http', function ($routeParams, $cookies, $scope, $modal, $location, $http) {
         $scope.addFavorite = function () {
             var idUsuario = $cookies.getObject('idUsuario');

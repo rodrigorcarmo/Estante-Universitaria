@@ -29,12 +29,16 @@
             <p><strong>{{ad.tipo}} - R${{ad.valor}}</strong></p>
 
     </div>
+        
+<div ng-controller="AskAdController">
 <form style="float:right;" class="form-group">
     Pergunte algo:<br>
-    <textarea rows="4" cols="70"></textarea>
+    <textarea ng-model="question" rows="4" cols="70"></textarea>
     <br><br>
-    <input style="float:right;" type="submit" value="Enviar">
+    <a ng-click="askAd()" class="btn btn-default">Enviar</a>
 </form>
+
+        </div>
     
 </div> 
 

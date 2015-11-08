@@ -69,6 +69,11 @@ public class AdController extends HttpServlet {
             JsonArray data = AdPersistence.getAllAds();
             PrintWriter pw = response.getWriter();
             pw.println(data);
+        } else if (action.equalsIgnoreCase("QUESTION")){
+            int idAnuncio = Integer.valueOf(request.getParameter("idAnuncio"));
+            int idUsuario = Integer.valueOf(request.getParameter("idUsuario"));
+            String question = request.getParameter("question").toString();
+            AdPersistence.addQuestion(idAnuncio,idUsuario,question);
         }
 
     }

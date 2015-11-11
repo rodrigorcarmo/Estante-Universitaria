@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistence;
 
 import Controllers.AdController;
 import Controllers.FavoriteController;
 import DataBase.DbInstance;
-import Models.AdModel;
-import Models.FavoriteModel;
 import Models.UserModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Pedro
- */
 public class FavoritePersistence {
     
     public static int insert(int idAnuncio, int idUsuario) throws SQLException {

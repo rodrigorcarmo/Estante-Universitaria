@@ -64,6 +64,18 @@ var estanteApp = angular.module('estanteApp', ['ngRoute', 'ngCookies', 'ui.boots
                         .when('/editmyads/:param1', {
                             templateUrl: 'MeusAnuncios/editmyads.html',
                         })
+                        .when('/editarperfil', {
+                            templateUrl: 'Usuario/editarperfil.html'
+                        })
+                        .when('/mensagens', {
+                            templateUrl: 'Usuario/mensagens.html'
+                        })
+                        .when('/transacoes', {
+                            templateUrl: 'Usuario/transacoes.html'
+                        })
+                        .when('/verhistoricochat', {
+                            templateUrl: 'Usuario/verhistoricochat.html'
+                        })
                         .otherwise('/anuncios', {
                             templateUrl: 'Anuncios/anuncios.html'
                         })

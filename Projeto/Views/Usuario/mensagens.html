@@ -1,0 +1,98 @@
+
+<div id="list" class="row" ng-controller="GetChatController">
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Anunciante</th>
+                    <th>Cliente</th>
+                    <th>Anuncio</th>
+                    <th>Última mensagem</th>
+                    <th class="actions">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr ng-repeat="chat in chats">
+                    <td>{{chat.anunciante}}</td>
+                    <td>{{chat.cliente}}</td>
+                    <td>{{chat.anuncio}}</td>
+                    <td class='col-md-4'>De {{chat.usuarioEnvia}} para {{chat.usuarioRecebe}} as {{chat.date}} : {{chat.ultimamensagem}}</td>
+                    <td class="actions">
+                        <a ng-click='openHistoricoModal(chat)' class="btn btn-success btn-xs">Visualizar Chat</a>
+                        <a ng-click="openEnviarMensagem(chat)" class="btn btn-warning btn-xs" >Enviar Mensagem</a>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <a href="#usuario" class="btn btn-default">Voltar</a>
+    </div>
+
+</div> 
+<div class="modal fade" id="enviarMensagemModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="EnviarMensagemController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Enviar Mensagem </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    <form  class="form-group">
+                        Escreva sua mensagem aqui:
+                        <textarea ng-model="mensagem" rows="4" cols="70"></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn btn-default">Voltar</a>
+                    <a ng-click="enviarMensagem()" class="btn btn-primary">Enviar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div class="modal fade" id="confirmaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="EnviarMensagemController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Mensagem enviada </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    Sua mensagem foi enviada com sucesso!
+                </div>
+                <div class="modal-footer">
+                    <button onclick='location.reload()' data-dismiss="modal" class="btn btn-default">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" id="historicoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="GetMensagensController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Seu chat com {{usuario}} </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    <div class="row" ng-repeat="message in messages">
+                        <strong>De {{message.usuarioEnvia}} para {{message.usuarioRecebe}} as {{message.date}} </strong>
+                        <p>{{message.texto}}</p>
+                        <hr>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick='location.reload()' data-dismiss="modal" class="btn btn-default">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

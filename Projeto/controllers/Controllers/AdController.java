@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Models.AdModel;
-import Models.BookModel;
 import Persistence.AdPersistence;
-import Persistence.BookPersistence;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,10 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Pedro
- */
 @WebServlet(name = "AdController", urlPatterns = {"/AdController"})
 public class AdController extends HttpServlet {
 
@@ -72,8 +61,13 @@ public class AdController extends HttpServlet {
         } else if (action.equalsIgnoreCase("QUESTION")){
             int idAnuncio = Integer.valueOf(request.getParameter("idAnuncio"));
             int idUsuario = Integer.valueOf(request.getParameter("idUsuario"));
-            String question = request.getParameter("question").toString();
+            String question = request.getParameter("question");
             AdPersistence.addQuestion(idAnuncio,idUsuario,question);
+        } else if (action.equalsIgnoreCase("GETCOMMENTS")){
+            int idAnuncio = Integer.valueOf(request.getParameter("idAnuncio"));
+            JsonArray data = AdPersistence.getComments(idAnuncio);
+            PrintWriter pw = response.getWriter();
+            pw.println(data);
         }
 
     }

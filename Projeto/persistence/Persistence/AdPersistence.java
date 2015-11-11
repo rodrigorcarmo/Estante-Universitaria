@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
@@ -90,6 +89,7 @@ public class AdPersistence {
                 ad.addProperty("tipo", rs.getString("tipo"));
                 ad.addProperty("valor", rs.getDouble("valor"));
                 ad.addProperty("idAnuncio", rs.getDouble("idAnuncio"));
+                ad.addProperty("idUsuario", rs.getInt("idUsuario"));
             }
             conn.close();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -165,8 +165,8 @@ public class AdPersistence {
     }
 
     public static void addQuestion(int idAnuncio, int idUsuario, String question) {
-       long time = System.currentTimeMillis();
-       java.sql.Date date = new java.sql.Date(time);
+       Date date = new Date();
+       java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
         DbInstance db = new DbInstance();
         try {
             //TODO check if email already exists
@@ -178,13 +178,37 @@ public class AdPersistence {
             preparedStatement.setInt(1, idUsuario);
             preparedStatement.setInt(2, idAnuncio);
             preparedStatement.setString(3, question);
-            preparedStatement.setDate(4, date);
+            preparedStatement.setTimestamp(4, ts);
             preparedStatement.execute();
             preparedStatement.close();
             conn.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AdController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static JsonArray getComments(int idAnuncio) {
+        JsonArray result = new JsonArray();
+        DbInstance db = new DbInstance();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = db.getConnection();
+            String sql = "SELECT * FROM comentario WHERE idAnuncio = "+idAnuncio;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                JsonObject comment = new JsonObject();
+                UserModel user = UserPersistence.getUserById(rs.getInt("idUsuario"));
+                comment.addProperty("date", rs.getTimestamp("data").toString());
+                comment.addProperty("texto", rs.getString("texto"));
+                comment.addProperty("usuario", user.getNome());
+                result.add(comment);
+            }
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AdController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
 }

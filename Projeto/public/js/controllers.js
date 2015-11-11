@@ -1,19 +1,33 @@
+function formataData(dataAntiga) {
+    var anoMesDia = dataAntiga.split(" ")[0];
+    var tempo = dataAntiga.split(" ")[1].split(".")[0];
+    var ano = anoMesDia.split("-")[0];
+    var mes = anoMesDia.split("-")[1];
+    var dia = anoMesDia.split("-")[2];
+    var novaData = tempo + " de " + dia + "/" + mes + "/" + ano;
+    return novaData;
+}
+
 estanteApp.controller('HeaderController', ['$cookies', '$scope', '$location', function ($cookies, $scope, $location) {
-        
+
         $scope.checkIfLogged = function () {
             var idUsuario = -1;
 
             if (typeof $cookies.getObject('idUsuario') != "undefined") {
                 idUsuario = $cookies.getObject('idUsuario');
             }
-            if (idUsuario > 0){
+            if (idUsuario > 0) {
                 $("#adFavoriteId").removeClass("hidden");
-                 $("#helloUserId").removeClass("hidden");
+                $("#helloUserId").removeClass("hidden");
+                $("#negociarAdId").removeClass("hidden");
+                $("#idComentario").removeClass("hidden");
                 return true;
             }
-            else{
-                 $("#helloUserId").addClass("hidden");
+            else {
+                $("#negociarAdId").addClass("hidden");
+                $("#helloUserId").addClass("hidden");
                 $("#adFavoriteId").addClass("hidden");
+                $("#idComentario").addClass("hidden");
                 return false;
             }
         };
@@ -21,7 +35,7 @@ estanteApp.controller('HeaderController', ['$cookies', '$scope', '$location', fu
         $scope.logout = function () {
             $cookies.remove('idUsuario');
             $location.path('/home');
-        }
+        };
 
         $scope.isActive = function (viewLocation) {
             if ($location.path() === '/home') {
@@ -419,6 +433,9 @@ estanteApp.controller('GetAdController', ['$modal', '$cookies', '$scope', '$root
 
 estanteApp.controller('ViewAdController', ['$routeParams', '$scope', '$location', '$http', function ($routeParams, $scope, $location, $http) {
         var idAnuncio = $routeParams.param1;
+        $scope.openNegociarModal = function () {
+            $('#negociarModal').modal('show');
+        }
         var update = function (callback) {
             var data =
                     {
@@ -546,14 +563,14 @@ estanteApp.controller('ViewDetailedAdController', ['$routeParams', '$scope', '$l
         });
     }]);
 
-estanteApp.controller('AddFavoriteController', ['$routeParams','$cookies', '$scope', '$modal', '$location', '$http', function ($routeParams, $cookies, $scope, $modal, $location, $http) {
+estanteApp.controller('AddFavoriteController', ['$routeParams', '$cookies', '$scope', '$modal', '$location', '$http', function ($routeParams, $cookies, $scope, $modal, $location, $http) {
         $scope.addFavorite = function () {
             var idUsuario = $cookies.getObject('idUsuario');
             var idAnuncio = $routeParams.param1;
             var data = {
-                "idUsuario":idUsuario,
-                "idAnuncio":idAnuncio,
-                "action":"Add"
+                "idUsuario": idUsuario,
+                "idAnuncio": idAnuncio,
+                "action": "Add"
             }
             $http({
                 method: 'POST',
@@ -562,7 +579,7 @@ estanteApp.controller('AddFavoriteController', ['$routeParams','$cookies', '$sco
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function sucessCallback(data) {
                 var result = data.data.resultado;
-                if(result === 1)
+                if (result === 1)
                     $('#sucess-modal').modal('show');
                 else
                     $('#fail-modal').modal('show');
@@ -571,7 +588,7 @@ estanteApp.controller('AddFavoriteController', ['$routeParams','$cookies', '$sco
     }]);
 
 estanteApp.controller('FavoritesController', ['$modal', '$cookies', '$scope', '$rootScope', '$http', function ($modal, $cookies, $scope, $rootScope, $http) {
-       $scope.openModal = function (_idFavorito) {
+        $scope.openModal = function (_idFavorito) {
             $cookies.put('idFavoriteDelete', _idFavorito);
             var modalInstance = $modal.open({
                 templateUrl: 'Favoritos/deletefavoritemodal.html',
@@ -626,12 +643,12 @@ estanteApp.controller('DeleteFavoriteController', ['$scope', '$http', '$cookies'
     }]);
 
 estanteApp.controller('GetUserController', ['$modal', '$cookies', '$scope', '$rootScope', '$http', '$location', function ($modal, $cookies, $scope, $rootScope, $http, $location) {
-        
+
         $scope.logout = function () {
             $cookies.remove('idUsuario');
             $location.path('/home');
-        }
-        
+        };
+
         var update = function (callback) {
             var idUsuario = $cookies.getObject('idUsuario');
             var data =
@@ -653,4 +670,312 @@ estanteApp.controller('GetUserController', ['$modal', '$cookies', '$scope', '$ro
             $scope.user = data;
         });
 
+    }]);
+
+estanteApp.controller('AskAdController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        $scope.askAd = function () {
+            var idAnuncio = $routeParams.param1;
+            var idUsuario = $cookies.getObject('idUsuario');
+            var requisicao = {
+                "idUsuario": idUsuario,
+                "question": $scope.question,
+                "idAnuncio": idAnuncio,
+                "action": "question"
+
+            };
+            $http({
+                method: 'POST',
+                url: '/AdController',
+                data: $.param(requisicao),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+            window.location.reload()
+
+        }
+    }]);
+
+estanteApp.controller('ComentarioController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        var idAnuncio = $routeParams.param1;
+        var data =
+                {
+                    "idAnuncio": idAnuncio,
+                    "action": "GETCOMMENTS"
+                };
+        $http({
+            method: 'POST',
+            url: '/AdController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.comments = data;
+            var newData = $scope.comments;
+            for (var index = 0; index < newData.length; index++) {
+                var anoMesDia = newData[index].date.split(" ")[0];
+                var tempo = newData[index].date.split(" ")[1].split(".")[0];
+                var ano = anoMesDia.split("-")[0];
+                var mes = anoMesDia.split("-")[1];
+                var dia = anoMesDia.split("-")[2];
+                var novaData = tempo + " de " + dia + "/" + mes + "/" + ano;
+                $scope.comments[index].date = novaData;
+            }
+            ;
+        });
+    }]);
+
+estanteApp.controller('MensagemNegociarController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        var idAnuncio = $routeParams.param1;
+        var idCliente = $cookies.getObject('idUsuario');
+        $scope.enviarMensagem = function () {
+            var mensagem = $scope.mensagem;
+            var data = {
+                "idAnuncio": idAnuncio,
+                "idCliente": idCliente,
+                "mensagem": mensagem,
+                "action": "CREATECHAT"
+            };
+            $http({
+                method: 'POST',
+                url: '/ChatController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $('#negociarModal').modal('hide');
+                $('#confirmaNegociacao').modal('show');
+            });
+        };
+    }]);
+
+estanteApp.controller('GetChatController', ['$routeParams', '$location', '$scope', '$cookies', '$http', function ($routeParams, $location, $scope, $cookies, $http) {
+        $scope.openEnviarMensagem = function (chat) {
+            var idUsuarioEnvia;
+            var idUsuarioRecebe;
+            if (chat.anunciante === "Voce") {
+                idUsuarioEnvia = chat.idAnunciante;
+                idUsuarioRecebe = chat.idCliente;
+            }
+            else {
+                idUsuarioEnvia = chat.idCliente;
+                idUsuarioRecebe = chat.idAnunciante;
+            }
+
+            var chatHeader = "" + idUsuarioEnvia + ":" + idUsuarioRecebe + ":" + chat.idChat;
+            localStorage.setItem('chatHeader', chatHeader);
+            $('#enviarMensagemModal').modal('show');
+        };
+        $scope.openHistoricoModal = function (chat) {
+            var usuario;
+            if (chat.anunciante === "Voce") {
+                usuario = chat.cliente;
+            }
+            else {
+                usuario = chat.anunciante;
+            }
+            var chatHeader = "" + chat.idChat + ":" + usuario;
+            localStorage.setItem('chatHeader', chatHeader);
+            $location.path("/verhistoricochat")
+        };
+        var idUsuario = $cookies.getObject('idUsuario');
+        var data = {
+            "idUsuario": idUsuario,
+            "action": "getallchats"
+        };
+        $http({
+            method: 'POST',
+            url: '/ChatController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.chats = data;
+            var newData = $scope.chats;
+            for (var index = 0; index < newData.length; index++) {
+                novaData = formataData(newData[index].date);
+                $scope.chats[index].date = novaData;
+            }
+            ;
+        });
+    }]);
+
+estanteApp.controller('EnviarMensagemController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        $scope.enviarMensagem = function () {
+            var header = localStorage.getItem('chatHeader');
+            header = header.split(":");
+            var idUsuarioEnvia = header[0];
+            var idUsuarioRecebe = header[1];
+            var idChat = header[2];
+            var data = {
+                "idUsuarioEnvia": idUsuarioEnvia,
+                "idUsuarioRecebe": idUsuarioRecebe,
+                "idChat": idChat,
+                "mensagem": $scope.mensagem,
+                "action": "INSERTMESSAGE"
+            };
+            $http({
+                method: 'POST',
+                url: '/MessageController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $('#enviarMensagemModal').modal('hide');
+                $('#confirmaModal').modal('show');
+            });
+        };
+        $scope.closeModal = function () {
+            $cookies.remove('chatHeader');
+            $('#enviarMensagemModal').modal('hide');
+        };
+
+    }]);
+
+estanteApp.controller('GetMensagensController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        var header = localStorage.getItem('chatHeader');
+        var idChat = header.split(":")[0];
+        $scope.usuario = header.split(":")[1];
+        var data = {
+            "idChat": idChat,
+            "action": "GETCHAT"
+        };
+        $http({
+            method: 'POST',
+            url: '/MessageController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.messages = data;
+            var newData = $scope.messages;
+            for (var index = 0; index < newData.length; index++) {
+                novaData = formataData(newData[index].date);
+                $scope.messages[index].date = novaData;
+            }
+        });
+
+
+    }]);
+
+estanteApp.controller('GetTransacoesController', ['$routeParams', '$scope', '$rootScope', '$cookies', '$http', function ($routeParams, $scope, $rootScope, $cookies, $http) {
+        $scope.openModalConfirmacao = function (transacao) {
+            localStorage.setItem("transacao", transacao.idTransacao);
+            $("#cancelarModal").modal('show');
+        }
+        $scope.openModalConclusao = function (transacao) {
+            localStorage.setItem("transacao", transacao.idTransacao);
+            if (transacao.anunciante === "Voce") {
+                localStorage.setItem("avaliarTexto", "Avalie como a/o cliente " + transacao.cliente + " se comportou nessa transação");
+                localStorage.setItem("avaliar", "cliente:" + transacao.idCliente);
+            }
+            else {
+                localStorage.setItem("avaliarTexto", "Avalie como a/o anunciante " + transacao.anunciante + " se comportou nessa transação");
+                localStorage.setItem("avaliar", "anunciante:" + transacao.idAnunciante);
+            }
+            $rootScope.$broadcast("avaliar-finished");
+            $("#concluirModal").modal('show');
+        };
+        var idUsuario = $cookies.getObject('idUsuario');
+        var data = {
+            "idUsuario": idUsuario,
+            "action": "GETTRANSACOES"
+        };
+        $http({
+            method: 'POST',
+            url: '/TransacaoController',
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function callback(data) {
+            $scope.transacoes = data;
+            var newData = $scope.transacoes;
+            for (var index = 0; index < newData.length; index++) {
+                if (newData[index].status > 0) {
+                    $scope.transacoes[index].status = "Concluido";
+                } else if (newData[index].status === 0) {
+                    $scope.transacoes[index].status = "Pendente";
+                } else {
+                    $scope.transacoes[index].status = "Cancelado";
+                }
+            }
+        });
+    }]);
+
+estanteApp.controller('CancelarTransacaoController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        $scope.cancelarTransacao = function () {
+            $("#cancelarModal").modal('hide');
+            var idTransacao = localStorage.getItem("transacao");
+            var data = {
+                "idTransacao": idTransacao,
+                "action": "UPDATETRANSACAO",
+                "status": -1
+            };
+            $http({
+                method: 'POST',
+                url: '/TransacaoController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $("#confirmacaoCancelamentoModal").modal('show');
+            });
+        };
+    }]);
+
+estanteApp.controller('ConcluirTransacaoController', ['$routeParams', '$scope', '$cookies', '$http', function ($routeParams, $scope, $cookies, $http) {
+        $scope.concluirTransacao = function () {
+            $("#concluirModal").modal('hide');
+            var idTransacao = localStorage.getItem("transacao");
+            var data = {
+                "idTransacao": idTransacao,
+                "action": "UPDATETRANSACAO",
+                "status": 1
+            };
+            $http({
+                method: 'POST',
+                url: '/TransacaoController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $("#confirmacaoConcluirModal").modal('show');
+            });
+        };
+
+    }]);
+
+estanteApp.controller('AvaliacaoController', ['$routeParams', '$scope', '$rootScope', '$cookies', '$http', function ($routeParams, $scope,$rootScope, $cookies, $http) { 
+       $scope.$on('avaliar-finished',function(event,args){ 
+           $scope.avaliarTexto = localStorage.getItem("avaliarTexto");
+            var header = localStorage.getItem("avaliar");   
+        $scope.avaliar = function () {
+            var data = {
+                "idUsuario": header.split(':')[1],
+                "tipo": header.split(':')[0],
+                "action": "AVALIAR",
+                "nota": $scope.nota
+            };
+            $http({
+                method: 'POST',
+                url: '/AvaliacaoController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                $("#obrigadoModal").modal('show');
+            });
+        };
+    });
+    }]);
+
+estanteApp.controller('GetAvaliacoesController', ['$routeParams', '$scope', '$rootScope', '$cookies', '$http', function ($routeParams, $scope,$rootScope, $cookies, $http) { 
+            var data = {
+                "idUsuario":  $cookies.getObject('idUsuario'),
+                "action": "GETAVALIACOES",
+            };
+            $http({
+                method: 'POST',
+                url: '/AvaliacaoController',
+                data: $.param(data),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function callback(data) {
+                var avaliacaoAnunciante = data.anunciante;
+                var avaliacaoCliente = data.cliente;
+                for(var index=0;index<avaliacaoAnunciante;index++){
+                    $( "#avaliacaoAnuncianteEstrelas" ).append( "<i class=\"fa fa-star\"></i>" );
+                }
+                for(var index=0;index<avaliacaoCliente;index++){
+                    $( "#avaliacaoClienteEstrelas" ).append( "<i class=\"fa fa-star\"></i>" );
+                }
+        });
     }]);

@@ -1,0 +1,136 @@
+
+<div id="list" class="row" ng-controller="GetTransacoesController">
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Anunciante</th>
+                    <th>Status</th>
+                    <th class="actions">Ações</th>
+                 </tr>
+            </thead>
+            <tbody>
+ 
+                <tr ng-repeat='transacao in transacoes' >
+                    <td>{{transacao.cliente}}</td>
+                    <td>{{transacao.anunciante}}</td>
+                    <td>{{transacao.status}}</td>
+                    <td class="actions">
+                        <a  ng-if="transacao.status == 'Pendente'" ng-click="openModalConclusao(transacao)" class="btn btn-success btn-xs">Concluir</a>
+  <a ng-if="transacao.status == 'Pendente'" ng-click="openModalConfirmacao(transacao)" class="btn btn-danger btn-xs" >Cancelar</a>
+                    </td>
+                </tr>
+ 
+            </tbody>
+         </table>
+        <a href="#usuario" class="btn btn-default">Voltar</a>
+     </div>
+ </div> 
+
+<div class="modal fade" id="concluirModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="ConcluirTransacaoController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Confirme a conclusão da transação </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                   Essa transação foi concluída com sucesso?
+                </div>
+                <div class="modal-footer">
+                    <button  data-dismiss="modal" class="btn btn-default">Voltar</button>
+                    <button ng-click='concluirTransacao()' data-dismiss="modal" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="CancelarTransacaoController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Confirme o cancelamento da transação </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                   Tem certeza que deseja cancelar essa transação?
+                </div>
+                <div class="modal-footer">
+                    <button  data-dismiss="modal" class="btn btn-default">Voltar</button>
+                    <button ng-click='cancelarTransacao()' data-dismiss="modal" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmacaoCancelamentoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Transação finalizada! </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    Você não poderá avaliar essa transação pois ela foi cancelada!
+                </div>
+                <div class="modal-footer">
+                    <button onclick="location.reload()"  data-dismiss="modal" class="btn btn-default">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" id="confirmacaoConcluirModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" ng-controller="AvaliacaoController">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Transação finalizada! </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    {{avaliarTexto}}! <p>(Selecione uma nota de 1 a 5):
+                   <select ng-model="nota">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                   </select></p>
+                </div>
+                
+                <div class="modal-footer">
+                    <button onclick="location.reload()" data-dismiss="modal" class="btn btn-default">Finalizar sem Avaliação</button>
+                     <button ng-click="avaliar()" data-dismiss="modal" class="btn btn-primary">Enviar Avaliação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" id="obrigadoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                <h4 >Obrigado por sua avaliação! </h4>
+            </div>
+            <div> 
+                <div class="modal-body" >
+                    Continue utilizando o Estante Universitária e tenha um bom dia!
+                </div>
+                <div class="modal-footer">
+                    <button onclick="location.reload()"  data-dismiss="modal" class="btn btn-default">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
